@@ -1,32 +1,18 @@
-// Obtener usuarios
-fetch('https://script.google.com/macros/s/AKfycbxlZM-HpznlxGM-LPzcF9F3oIzuqtaCpbV-SIBauNIQUf3QvO2bkc92G4AphW_gY6mb/exec')
-  .then(res => res.json())
-  .then(data => console.log(data));
-
-// Agregar usuario
-fetch('TU_URL_WEB_APP', {
-  method: 'POST',
-  body: JSON.stringify({ ID: '123', Nombre: 'Juan' })
-});
-
-// Editar usuario
-fetch('https://script.google.com/macros/s/AKfycbxlZM-HpznlxGM-LPzcF9F3oIzuqtaCpbV-SIBauNIQUf3QvO2bkc92G4AphW_gY6mb/exec', {
-  method: 'PUT',
-  body: JSON.stringify({ ID: '123', Nombre: 'Juan Editado' })
-});
-
-// Eliminar usuario
-fetch('https://script.google.com/macros/s/AKfycbxlZM-HpznlxGM-LPzcF9F3oIzuqtaCpbV-SIBauNIQUf3QvO2bkc92G4AphW_gY6mb/exec?ID=123', { method: 'DELETE' });
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Gestión de Usuarios</title>
+  <title>Usuarios</title>
 </head>
 <body>
-  <h1>Usuarios</h1>
+  <h1>Lista de Usuarios</h1>
   <button onclick="window.location.href='agregar.html'">Agregar usuario</button>
+  <table border="1">
+    <thead>
+      <tr><th>ID</th><th>Nombre</th><th>Acciones</th></tr>
+    </thead>
+    <tbody id="tabla-usuarios"></tbody>
+  </table>
+  <script src="js/index.js"></script>
 </body>
 </html>
-
