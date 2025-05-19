@@ -1,18 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Usuarios</title>
+  <meta charset="UTF-8">
+  <title>Gestión de Usuarios</title>
 </head>
 <body>
   <h1>Lista de Usuarios</h1>
-  <button onclick="window.location.href='agregar.html'">Agregar usuario</button>
-  <table border="1">
-    <thead>
-      <tr><th>ID</th><th>Nombre</th><th>Acciones</th></tr>
-    </thead>
-    <tbody id="tabla-usuarios"></tbody>
-  </table>
-  <script src="js/index.js"></script>
+  <button onclick="window.location.href='agregar.html'">Agregar Usuario</button>
+  <ul id="lista"></ul>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxpq6VEuoRcYkNRqwEBcfeJbHBVA38YnxqK2jrqsCtqRccZ7qMtYngCSsSoWktlIpCr/exec"; // Reemplaza con tu URL de Apps Script
+
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => {
+        const lista = document.getElementById('lista');
+        data.forEach(usuario => {
+          const li = document.createElement('li');
+          li.innerHTML = `${usuario.ID} - ${usuario.Nombre} 
+            <button onclick="editar('${usuario.ID}', '${usuario.Nombre}')">Editar</button> 
+            <button onclick="eliminar('${usuario.ID}')">Eliminar</button>`;
+          lista.appendChild(li);
+        });
+      });
+
+    function editar(id, nombre) {
+      window.location.href = `editar.html?id=${encodeURIComponent(id)}&nombre=${encodeURIComponent(nombre)}`;
+    }
+
+    function eliminar(id) {
+      fetch(`${API_URL}?ID=${id}`, { method: "DELETE" })
+        .then(res => res.text())
+        .then(() => location.reload());
+    }
+  </script>
 </body>
 </html>

@@ -3,31 +3,22 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxpq6VEuoRcYkNRqwEBcfeJ
 fetch(API_URL)
   .then(res => res.json())
   .then(data => {
-    const tabla = document.getElementById("tabla-usuarios");
-    tabla.innerHTML = "";
-    data.forEach(user => {
-      const fila = document.createElement("tr");
-      fila.innerHTML = `
-        <td>${user.ID}</td>
-        <td>${user.Nombre}</td>
-        <td>
-          <button onclick="editar('${user.ID}', '${user.Nombre}')">Editar</button>
-          <button onclick="eliminar('${user.ID}')">Eliminar</button>
-        </td>
-      `;
-      tabla.appendChild(fila);
+    const lista = document.getElementById('lista');
+    data.forEach(usuario => {
+      const li = document.createElement('li');
+      li.innerHTML = `${usuario.ID} - ${usuario.Nombre} 
+        <button onclick="editar('${usuario.ID}', '${usuario.Nombre}')">Editar</button> 
+        <button onclick="eliminar('${usuario.ID}')">Eliminar</button>`;
+      lista.appendChild(li);
     });
   });
 
-function eliminar(id) {
-  if (confirm("¿Eliminar usuario?")) {
-    fetch(`${API_URL}?ID=${id}`, { method: "DELETE" })
-      .then(() => location.reload());
-  }
+function editar(id, nombre) {
+  window.location.href = `editar.html?id=${encodeURIComponent(id)}&nombre=${encodeURIComponent(nombre)}`;
 }
 
-function editar(id, nombre) {
-  localStorage.setItem("editarID", id);
-  localStorage.setItem("editarNombre", nombre);
-  window.location.href = "editar.html";
+function eliminar(id) {
+  fetch(`${API_URL}?ID=${id}`, { method: "DELETE" })
+    .then(res => res.text())
+    .then(() => location.reload());
 }
